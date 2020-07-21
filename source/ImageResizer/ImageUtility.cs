@@ -9,6 +9,8 @@ namespace ImageResizer
     public class ImageUtility
     {
         private static int i = 0;
+        static readonly List<string> ImageExtensions = new List<string> { ".JPG", ".JPEG", ".BMP", ".GIF", ".PNG" };
+
         public static void ReadResizeImages(string directory, Size size)
         {
             ResizeImages(directory, size);
@@ -38,6 +40,11 @@ namespace ImageResizer
 
         private static void ResizeImage(string filePath, Size size)
         {
+            if (!ImageExtensions.Contains(Path.GetExtension(filePath).ToUpperInvariant()))
+            {
+                return;
+            }
+
             Image image = Image.FromFile(filePath);
             var backup = Path.GetDirectoryName(filePath) + "\\_" + Path.GetFileName(filePath);
             image.Save(backup);
